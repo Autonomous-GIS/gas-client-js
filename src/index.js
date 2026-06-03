@@ -532,18 +532,23 @@ export class GasClient {
 
     async _jsonOrRaise(response) {
         await this._raiseForStatus(response);
+        const txt = await response.text();
         try {
-            return await response.json();
+            return JSON.parse(txt);
         } catch (err) {
-            const txt = await response.text();
             throw new GasClientError(`Response was not valid JSON: ${txt}`);
         }
     }
 
     async _raiseForStatus(response) {
         if (response.status < 400) return;
+        const txt = await response.text();
         let payload;
-        try { payload = await response.json(); } catch { payload = await response.text(); }
+        try {
+            payload = JSON.parse(txt);
+        } catch {
+            payload = txt;
+        }
         throw new GasClientError(`GAS request failed with HTTP ${response.status}: ${JSON.stringify(payload)}`);
     }
 
