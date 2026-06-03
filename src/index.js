@@ -1,5 +1,4 @@
-// Entry point for Geospatial Agentic Services (GAS) JavaScript client
-import { URL } from 'url'; // Not needed if target environment is strictly browser
+
 
 // ------------------------------------------------------------------
 // Custom Error Classes
@@ -24,7 +23,7 @@ export class GasTaskTimeoutError extends Error {
 export class GasAgentClient {
     constructor(client, agentId) {
         this.client = client;
-        this.agentId = client.resolveAgentId(agentId);
+        this.agentId = agentId;
     }
 
     async describe(refresh = false) {
@@ -224,7 +223,7 @@ export class GasClient {
         } else {
             console.log("Warnings     : -");
         }
-        console.log("=" * 72);
+        console.log("=".repeat(72));
     }
 
     printStreamEvent(event, options = {}) {
